@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1124px" height="312px" viewBox="0 0 1424 312" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>切片</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="3" fill="#00D1B2" transform="translate(290.000000, 213.000000) rotate(45.000000) translate(-290.000000, -213.000000) " x="220" y="143" width="140" height="140" rx="20"></rect>
+        <rect id="1" fill="#FF3860" transform="translate(191.000000, 93.000000) rotate(45.000000) translate(-191.000000, -93.000000) " x="121" y="23" width="140" height="140" rx="20"></rect>
+        <rect id="2" fill="#209CEE" transform="translate(92.000000, 213.000000) rotate(45.000000) translate(-92.000000, -213.000000) " x="22" y="143" width="140" height="140" rx="20"></rect>
+        <text id="duugr" font-family="Skia-Regular, Skia" font-size="260" font-weight="normal" fill="#209CEE">
+            <tspan x="388" y="232">Duugr</tspan>
+        </text>
+    </g>
+</svg>

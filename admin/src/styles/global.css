@@ -1,0 +1,291 @@
+:root {
+    --white: hsl(0, 0%, 100%);
+    --black: hsl(0, 0%, 4%);
+    --light: hsl(0, 0%, 96%);
+    --dark: hsl(0, 0%, 21%);
+    --primary: hsl(171, 100%, 41%);
+    --link: hsl(217, 71%, 53%);
+    --info: hsl(204, 86%, 53%);
+    --success: hsl(141, 71%, 48%);
+    --warning: hsl(48, 100%, 67%);
+    --danger: hsl(348, 100%, 61%);
+    --text-blue: #25396f;
+    --text-gray: #607080;
+    --text-hover: #364b98;
+
+    --blue: #2c7be5;
+    --indigo: #727cf5;
+    --purple: #6b5eae;
+    --pink: #ff679b;
+    --red: #e63757;
+    --orange: #fd7e14;
+    --yellow: #f5803e;
+    --green: #00d27a;
+    --teal: #02a8b5;
+    --cyan: #39afd1;
+    --gray: #748194;
+    --gray-dark: #4d5969;
+    /*--primary: #2c7be5;*/
+    --secondary: #748194;
+    /*--success: #00d27a;*/
+    /*--info: #39afd1;*/
+    /*--warning: #f5803e;*/
+    /*--danger: #e63757;*/
+    /*--light: #f9fafd;*/
+    --light-two: #e9ebee;
+    /*--dark: #0b1727;*/
+
+    --font-family-sans-serif:-apple-system,Nunito, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --font-family-monospace: Menlo, Monaco, Consolas,Nunito, "Liberation Mono", "Courier New", monospace;
+}
+
+body {
+    background-color: #edf2f9;
+    background-image: url(/public/img/bg.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-position: center;
+    color:var(--white);
+    font-family: var(--font-family-monospace);
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+a {
+    color: var(--info);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--link);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.admin {
+    border-left: var(--info) solid .5rem;
+}
+
+.admin-nav {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    width: 18rem;
+    display: block;
+    background-color: var(--white);
+    padding: 0;
+}
+.admin-nav .admin-nav-menu {
+    position: relative;
+    top: 0;
+    width: 4rem;
+    overflow: hidden;
+    overflow-y: auto;
+    display: block;
+    background-color: var(--light-two);
+    height: 100vh;
+}
+.admin-nav .admin-nav-list {
+    position: absolute;
+    top: 0;
+    width: 14rem;
+    margin-left: 4rem;
+    overflow: hidden;
+    overflow-y: auto;
+    display: block;
+    padding-left: .1rem;
+}
+
+.admin-body {
+    position: relative;
+    margin-left: 18rem;
+    padding: 1.2rem 2rem;
+    min-height: 100vh;
+}
+
+
+
+.admin-nav-menu .logo {
+    padding: .3rem;
+    margin-bottom: .5rem;
+}
+.admin-nav-menu .menu {
+    font-weight: 600;
+    padding: 1rem;
+    padding-top: 0;
+}
+.admin-nav-menu .menu a{
+    display: block;
+    font-size: 1.5rem;
+    align-items: center;
+    align-content: center;
+}
+.admin-nav-menu .admin-nav-menu-user {
+    position: absolute;
+    bottom: 0;
+}
+
+.admin-nav-menu a.menu-big {
+    padding: .5rem .8rem;
+    display: block;
+    font-size: 2rem;
+    text-align: center;
+    margin-top: .2rem;
+}
+.admin-nav-menu a.menu-big.is-active {
+    background-color: var(--info);
+    color: var(--white);
+}
+
+.admin-nav-list .menu-list {
+    border-bottom: .1rem solid var(--light-two);
+}
+
+.admin-nav-list .menu-list a {
+    color: var(--info);
+    padding: .7rem 1rem;
+    font-size: 1rem;
+    /*border-radius: .5rem;*/
+}
+
+.admin-nav-list .menu-list a .fas {
+    margin-right: 1rem;
+    color: var(--text-blue);
+    fill: var(--text-blue);
+}
+
+.admin-nav-list .menu-list a.is-active {
+    background-color: var(--light-two);
+    /*border-right: var(--info) solid 3px;*/
+    /*border-radius: 0;*/
+    fill: var(--link);
+    color: var(--link);
+    border-right: .2rem solid var(--primary);
+}
+
+.admin-nav-list .menu-list a.is-active .fas {
+    color: var(--white);
+    fill: var(--white);
+}
+
+.admin-nav-list .menu-list a:hover,
+.admin-nav-list .menu-list a.is-active:hover,
+.admin-nav-list .menu-list a.is-active:hover .fas {
+    background-color: var(--primary);
+    color: var(--light);
+    fill: var(--light);
+}
+
+.admin-body .panel,
+.admin-body .box {
+    -webkit-box-shadow: unset;
+    box-shadow: unset;
+    color: var(--text-blue);
+}
+.admin-body strong{
+    color: var(--text-blue);
+}
+
+.admin-body .title {
+    color: var(--white);
+}
+
+.admin-body .level-left h2 {
+    color: var(--white);
+    font-weight: 800;
+}
+.admin-body .level-right .breadcrumb li a {
+    color: var(--white);
+}
+.admin-body .level-right .breadcrumb li.is-active a {
+    color: var(--light);
+}
+.admin-body .level-right .breadcrumb a:hover {
+    color: var(--white);
+}
+
+.content .table thead td,
+.content .table thead th,
+.content .table tfoot td,
+.content .table tfoot th,
+.content .table tbody td {
+    color: var(--text-blue);
+}
+.admin-body .content table td,
+.admin-body .content table th {
+    vertical-align: revert;
+}
+.admin-body .content table td.is-right{
+    text-align: right;
+}
+@media screen and (min-width: 769px), print {
+    .field-label {
+        text-align: left;
+    }
+}
+
+.footer {
+    background-color: unset;
+}
+
+.bg-login {
+    overflow-y: hidden !important;
+    background-image: url('/public/img/bg.jpg') !important;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.login.box {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+.login.box .image img {
+    display: unset;
+    width: unset;
+    height: 80px;
+}
+
+.login.box .input {
+    /*border-color: var(--primary);*/
+    box-shadow: unset;
+    border-width: 2px;
+    background-color: unset;
+    color: var(--white);
+}
+
+.login.box .input.bottom {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-bottom-width: 1px;
+}
+
+.login.box .input.top {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top-width: 1px;
+}
+
+.login.box .input::placeholder,
+.login.box .input:hover,
+.login.box .input:active,
+.login.box .input:focus {
+    color: var(--light);
+    /*border-color: var(--primary);*/
+    box-shadow: unset;
+}
+
+.field .select {
+    max-width: 100%;
+    width: 100%;
+}

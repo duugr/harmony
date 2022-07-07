@@ -1,0 +1,4 @@
+.env
+/.vscode
+.Ds_Store
+*.log
