@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
-	"iering.com/Harmony/service/utils"
+	"github.com/duugr/harmony/service/utils"
 )
 
 const (

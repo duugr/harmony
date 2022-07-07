@@ -1,4 +1,4 @@
-module iering.com/Harmony/service/admin
+module github.com/duugr/harmony/service/admin
 
 go 1.18
 
@@ -6,7 +6,7 @@ require (
 	github.com/gorilla/mux v1.8.0
 	github.com/joho/godotenv v1.4.0
 	github.com/rs/cors v1.8.2
-	iering.com/Harmony/service/utils v0.0.0-20220630151959-2f6301b3d256
+	github.com/duugr/harmony/service/utils v0.0.0-20220630151959-2f6301b3d256
 )
 
 require (

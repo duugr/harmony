@@ -1,0 +1,27 @@
+version: "3.9"
+networks:
+  harmony_net:
+
+services:
+
+  # harmony_api:
+  #   container_name: harmony_api
+  #   build: ./config/dockerfiles/golang
+  #   volumes:
+  #     - ./harmony:/app
+  #   ports:
+  #     - 8880:9983
+  #   networks:
+  #     - harmony_net
+  #   working_dir: /app
+
+  admin:
+    container_name: admin
+    build: ./config/dockerfiles/node
+    volumes:
+      - ../admin:/app
+    ports:
+      - 9999:80
+    networks:
+      - harmony_net
+    working_dir: /app

@@ -3,8 +3,8 @@ package logic
 import (
 	"errors"
 
-	"iering.com/Harmony/service/admin/auth/internal/entity"
-	"iering.com/Harmony/service/utils"
+	"github.com/duugr/harmony/service/admin/auth/internal/entity"
+	"github.com/duugr/harmony/service/utils"
 )
 
 type (

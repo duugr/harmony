@@ -1,4 +1,4 @@
-module iering.com/Harmony/service/utils
+module github.com/duugr/harmony/service/utils
 
 go 1.18
 

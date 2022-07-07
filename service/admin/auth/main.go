@@ -8,8 +8,8 @@ import (
 
 	"github.com/joho/godotenv"
 
-	"iering.com/Harmony/service/admin/auth/internal/handler"
-	"iering.com/Harmony/service/utils"
+	"github.com/duugr/harmony/service/admin/auth/internal/handler"
+	"github.com/duugr/harmony/service/utils"
 )
 
 func init() {

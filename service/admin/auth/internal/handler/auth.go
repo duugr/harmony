@@ -3,8 +3,8 @@ package handler
 import (
 	"net/http"
 
-	"iering.com/Harmony/service/admin/auth/internal/logic"
-	"iering.com/Harmony/service/utils"
+	"github.com/duugr/harmony/service/admin/auth/internal/logic"
+	"github.com/duugr/harmony/service/utils"
 )
 
 func AuthLogin(w http.ResponseWriter, r *http.Request) {

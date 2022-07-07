@@ -3,7 +3,7 @@ package logic
 import (
 	"errors"
 
-	"iering.com/Harmony/service/admin/auth/internal/entity"
+	"github.com/duugr/harmony/service/admin/auth/internal/entity"
 )
 
 func AdminRoleList(page Page) (err error, result Result) {
