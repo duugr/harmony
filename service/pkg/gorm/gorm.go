@@ -1,12 +1,23 @@
 package gorm
 
 import (
+	"sync"
+
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
+var (
+	dbOnce sync.Once
+	gormDb *gorm.DB
+)
+
 func Init() {
-	db, err := gorm.Open(mysql.New(mysql.Config{
+	dbOnce.Do(initDbConnection())
+}
+
+func initDbConnection() {
+	gormDb, err := gorm.Open(mysql.New(mysql.Config{
 		DSN:                       "gorm:gorm@tcp(127.0.0.1:3306)/gorm?charset=utf8&parseTime=True&loc=Local", // data source name
 		DefaultStringSize:         256,                                                                        // default size for string fields
 		DisableDatetimePrecision:  true,                                                                       // disable datetime precision, which not supported before MySQL 5.6
@@ -14,4 +25,9 @@ func Init() {
 		DontSupportRenameColumn:   true,                                                                       // `change` when rename column, rename column not supported before MySQL 8, MariaDB
 		SkipInitializeWithVersion: false,                                                                      // auto configure based on currently MySQL version
 	}), &gorm.Config{})
+
+	if err != nil {
+		panic(err)
+	}
+	return
 }
