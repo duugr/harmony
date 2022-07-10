@@ -4,7 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/duugr/harmony/service/utils"
+	"github.com/duugr/harmony/service/pkg/sqlx"
+	"github.com/duugr/harmony/service/pkg/zaplog"
 )
 
 const (
@@ -31,12 +32,12 @@ func GetRule(ruleId int64) (rule AdminRuleObject) {
 	field := "*"
 	where := "admin_rule_id=?"
 
-	sql := utils.DbSqlDeleted(field, AdminRuleTable, where, "admin_rule_id", "ASC", 1, 0)
+	sql := sqlx.SqlDeleted(field, AdminRuleTable, where, "admin_rule_id", "ASC", 1, 0)
 
-	err := utils.DbGet(&rule, sql, ruleId)
+	err := sqlx.Get(&rule, sql, ruleId)
 
 	if err != nil {
-		utils.Sugar.Errorf("没有找到，%v", err)
+		zaplog.Sugar.Errorf("没有找到，%v", err)
 	}
 	return
 }
@@ -45,9 +46,9 @@ func GetRuleAllByPid(pid int64) (rules []AdminRuleObject) {
 	var sqlString string = "SELECT * FROM %s WHERE deleted_at IS NULL AND admin_rule_pid = ?"
 	sql := fmt.Sprintf(sqlString, AdminRuleTable)
 
-	err := utils.DbSelect(&rules, sql, pid)
+	err := sqlx.Select(&rules, sql, pid)
 	if err != nil {
-		utils.Sugar.Errorf("查询出错，%v", err)
+		zaplog.Sugar.Errorf("查询出错，%v", err)
 	}
 	return
 }
@@ -56,9 +57,9 @@ func GetRuleAll() (rules []AdminRuleObject) {
 	var sqlString string = "SELECT * FROM %s WHERE deleted_at IS NULL"
 	sql := fmt.Sprintf(sqlString, AdminRuleTable)
 
-	err := utils.DbSelect(&rules, sql)
+	err := sqlx.Select(&rules, sql)
 	if err != nil {
-		utils.Sugar.Errorf("查询出错，%v", err)
+		zaplog.Sugar.Errorf("查询出错，%v", err)
 	}
 	return
 }
@@ -71,11 +72,11 @@ func GetRuleAll() (rules []AdminRuleObject) {
 func GetRules(offset, limit int64, sortField, sort string) (rules []AdminRuleObject) {
 	field := "*"
 	where := "admin_rule_id>0"
-	sql := utils.DbSqlDeleted(field, AdminRuleTable, where, sortField, sort, limit, offset)
+	sql := sqlx.SqlDeleted(field, AdminRuleTable, where, sortField, sort, limit, offset)
 
-	err := utils.DbSelect(&rules, sql)
+	err := sqlx.Select(&rules, sql)
 	if err != nil {
-		utils.Sugar.Errorf("查询出错，%v", err)
+		zaplog.Sugar.Errorf("查询出错，%v", err)
 	}
 	return
 }
@@ -86,12 +87,12 @@ func GetRuleCount() int64 {
 	field := "count(1) as total"
 	where := "admin_rule_id>0"
 
-	sql := utils.DbSqlDeleted(field, AdminRuleTable, where, "admin_rule_id", "ASC", 1, 0)
+	sql := sqlx.SqlDeleted(field, AdminRuleTable, where, "admin_rule_id", "ASC", 1, 0)
 
-	err := utils.DbGet(&total, sql)
+	err := sqlx.Get(&total, sql)
 
 	if err != nil {
-		utils.Sugar.Errorf("没有找到，%v", err)
+		zaplog.Sugar.Errorf("没有找到，%v", err)
 	}
 
 	return total
@@ -100,7 +101,7 @@ func GetRuleCount() int64 {
 func InsertAdminRule(rul AdminRuleObject) int64 {
 	// rul.Roles = ""
 
-	return utils.DbNamedInsert(fmt.Sprintf(`INSERT INTO %s
+	return sqlx.NamedInsert(fmt.Sprintf(`INSERT INTO %s
 		SET admin_rule_title=:admin_rule_title,
 			admin_rule_pid=:admin_rule_pid,
 			admin_rule_link=:admin_rule_link,

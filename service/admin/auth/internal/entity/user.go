@@ -4,7 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/duugr/harmony/service/utils"
+	"github.com/duugr/harmony/service/pkg/sqlx"
+	"github.com/duugr/harmony/service/pkg/zaplog"
 )
 
 const (
@@ -20,7 +21,7 @@ type (
 		/** 密码 **/
 		AdminUserPassword string `json:"adminUserPassword,omitempty" db:"admin_user_password"`
 		/** 角色 **/
-		AdminUserRoles utils.JsonString `json:"adminUserRoles,omitempty" db:"admin_user_roles"`
+		AdminUserRoles sqlx.JsonString `json:"adminUserRoles,omitempty" db:"admin_user_roles"`
 
 		/** 发布时间 **/
 		CreatedAt string `json:"createdAt,omitempty" db:"created_at"`
@@ -34,13 +35,13 @@ func GetAdminName(name string) (admin AdminUserObject) {
 	field := "admin_user_id, admin_user_name, admin_user_password"
 	where := "admin_user_name=?"
 
-	sql := utils.DbSqlDeleted(field, AdminUserTable, where, "admin_user_id", "ASC", 1, 0)
+	sql := sqlx.SqlDeleted(field, AdminUserTable, where, "admin_user_id", "ASC", 1, 0)
 
-	err := utils.DbGet(&admin, sql, name)
+	err := sqlx.Get(&admin, sql, name)
 
 	if err != nil {
-		utils.Sugar.Info(sql)
-		utils.Sugar.Errorf("没有找到[%s]，%v", name, err)
+		zaplog.Sugar.Info(sql)
+		zaplog.Sugar.Errorf("没有找到[%s]，%v", name, err)
 	}
 	return
 }
@@ -49,12 +50,12 @@ func GetUser(adminId int64) (admin AdminUserObject) {
 	field := "*"
 	where := "admin_user_id=?"
 
-	sql := utils.DbSqlDeleted(field, AdminUserTable, where, "admin_user_id", "ASC", 1, 0)
+	sql := sqlx.SqlDeleted(field, AdminUserTable, where, "admin_user_id", "ASC", 1, 0)
 
-	err := utils.DbGet(&admin, sql, adminId)
+	err := sqlx.Get(&admin, sql, adminId)
 
 	if err != nil {
-		utils.Sugar.Errorf("没有找到，%v", err)
+		zaplog.Sugar.Errorf("没有找到，%v", err)
 	}
 	return
 }
@@ -67,11 +68,11 @@ func GetUser(adminId int64) (admin AdminUserObject) {
 func GetUsers(offset, limit int64, sortField, sort string) (users []AdminUserObject) {
 	field := "*"
 	where := "admin_user_id>0"
-	sql := utils.DbSqlDeleted(field, AdminUserTable, where, sortField, sort, limit, offset)
-	utils.Sugar.Info(sql)
-	err := utils.DbSelect(&users, sql)
+	sql := sqlx.SqlDeleted(field, AdminUserTable, where, sortField, sort, limit, offset)
+	zaplog.Sugar.Info(sql)
+	err := sqlx.Select(&users, sql)
 	if err != nil {
-		utils.Sugar.Errorf("查询出错，%v", err)
+		zaplog.Sugar.Errorf("查询出错，%v", err)
 	}
 	return
 }
@@ -82,12 +83,12 @@ func GetUserCount() int64 {
 	field := "count(1) as total"
 	where := "admin_user_id>0"
 
-	sql := utils.DbSqlDeleted(field, AdminUserTable, where, "admin_user_id", "ASC", 1, 0)
+	sql := sqlx.SqlDeleted(field, AdminUserTable, where, "admin_user_id", "ASC", 1, 0)
 
-	err := utils.DbGet(&total, sql)
+	err := sqlx.Get(&total, sql)
 
 	if err != nil {
-		utils.Sugar.Errorf("没有找到，%v", err)
+		zaplog.Sugar.Errorf("没有找到，%v", err)
 	}
 
 	return total
@@ -96,7 +97,7 @@ func GetUserCount() int64 {
 func InsertAdminUser(user AdminUserObject) int64 {
 	// user.Roles = ""
 
-	return utils.DbNamedInsert(fmt.Sprintf(`INSERT INTO %s
+	return sqlx.NamedInsert(fmt.Sprintf(`INSERT INTO %s
 		SET admin_user_name=:admin_user_name,
 			admin_user_password=:admin_user_password,
 			admin_user_roles=:admin_user_roles`, AdminUserTable), user)

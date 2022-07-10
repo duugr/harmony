@@ -1,0 +1,15 @@
+# prod, dev
+env = "dev"
+level = "info"
+# 日志文件路径，默认 os.TempDir()
+file = "harmony.log"
+# 每个日志文件保存10M，默认 100M,
+max_size = 10
+# 保留30个备份，默认不限
+max_backups = 30
+# 保留7天，默认不限
+max_age = 7
+# 是否压缩，默认不压缩
+compress = true
+# Console print
+console = true

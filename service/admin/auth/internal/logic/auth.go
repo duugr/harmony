@@ -4,7 +4,8 @@ import (
 	"errors"
 
 	"github.com/duugr/harmony/service/admin/auth/internal/entity"
-	"github.com/duugr/harmony/service/utils"
+	"github.com/duugr/harmony/service/pkg/jwt"
+	"golang.org/x/crypto/bcrypt"
 )
 
 type (
@@ -26,14 +27,26 @@ func LoginVerify(data LoginData) (err error, jwtData JwtData) {
 		return
 	}
 
-	is := utils.CheckHashPassword(data.Password, userData.AdminUserPassword)
+	is := checkHashPassword(data.Password, userData.AdminUserPassword)
 	if !is {
 		err = errors.New("用户或密码出错2")
 		return
 	}
 
 	jwtData.Name = userData.AdminUserName
-	jwtData.Token = utils.GenerateToken(userData.AdminUserId)
+	jwtData.Token = jwt.GenerateToken(userData.AdminUserId)
 
 	return
+}
+
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+
+	return string(bytes), err
+}
+
+func checkHashPassword(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+
+	return err == nil
 }
