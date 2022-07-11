@@ -1,0 +1,17 @@
+app.server = "0.0.0.0:9983"
+# 应用信息
+app.name = "Harmony"
+app.sub.name = "Auth"
+# 小时
+token.expired = 24
+token.name = "X-AUTH-TOKEN"
+
+# 生产唯一ID
+uuid.server = 1
+
+
+app.ymdhis = "2006-01-02 15:04:05"
+app.ymdhi  = "2006-01-02 15:04"
+app.ymdh   = "2006-01-02 15"
+app.ymd    = "2006-01-02"
+app.ym     = "2006-01"

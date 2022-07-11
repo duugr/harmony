@@ -3,7 +3,8 @@ package entity
 import (
 	"fmt"
 
-	"github.com/duugr/harmony/service/utils"
+	"github.com/duugr/harmony/service/pkg/sqlx"
+	"github.com/duugr/harmony/service/pkg/zaplog"
 )
 
 const (
@@ -21,9 +22,9 @@ func GetRuleAllByRoleId(roleId int64) (roleRules []AdminRoleRuleObject) {
 	var sqlString string = "SELECT * FROM %s WHERE role_id = ?"
 	sql := fmt.Sprintf(sqlString, AdminRoleRuleTable)
 
-	err := utils.DbSelect(&roleRules, sql, roleId)
+	err := sqlx.Select(&roleRules, sql, roleId)
 	if err != nil {
-		utils.Sugar.Errorf("查询出错，%v", err)
+		zaplog.Sugar.Errorf("查询出错，%v", err)
 	}
 	return
 }
@@ -32,16 +33,17 @@ func GetRoleAllByRuleId(ruleId int64) (roleRules []AdminRoleRuleObject) {
 	var sqlString string = "SELECT * FROM %s WHERE rule_id = ?"
 	sql := fmt.Sprintf(sqlString, AdminRoleRuleTable)
 
-	err := utils.DbSelect(&roleRules, sql, ruleId)
+	err := sqlx.Select(&roleRules, sql, ruleId)
 	if err != nil {
-		utils.Sugar.Errorf("查询出错，%v", err)
+		zaplog.Sugar.Errorf("查询出错，%v", err)
 	}
 	return
 }
 
 func InsertAdminRoleRule(roleRules AdminRoleRuleObject) int64 {
 	// role.Roles = ""
-	return utils.DbNamedInsert(fmt.Sprintf(`INSERT INTO %s
+
+	return sqlx.NamedInsert(fmt.Sprintf(`INSERT INTO %s
 		SET role_id=:role_id,
 			rule_id=:rule_id`, AdminRoleRuleTable), roleRules)
 }

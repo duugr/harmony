@@ -4,7 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/duugr/harmony/service/utils"
+	"github.com/duugr/harmony/service/pkg/sqlx"
+	"github.com/duugr/harmony/service/pkg/zaplog"
 )
 
 const (
@@ -26,12 +27,12 @@ func GetRole(roleId int64) (role AdminRoleObject) {
 	field := "*"
 	where := "admin_role_id=?"
 
-	sql := utils.DbSqlDeleted(field, AdminRoleTable, where, "admin_role_id", "ASC", 1, 0)
+	sql := sqlx.SqlDeleted(field, AdminRoleTable, where, "admin_role_id", "ASC", 1, 0)
 
-	err := utils.DbGet(&role, sql, roleId)
+	err := sqlx.Get(&role, sql, roleId)
 
 	if err != nil {
-		utils.Sugar.Errorf("没有找到，%v", err)
+		zaplog.Sugar.Errorf("没有找到，%v", err)
 	}
 	return
 }
@@ -40,9 +41,9 @@ func GetRoleAll() (roles []AdminRoleObject) {
 	var sqlString string = "SELECT * FROM %s WHERE deleted_at IS NULL"
 	sql := fmt.Sprintf(sqlString, AdminRoleTable)
 
-	err := utils.DbSelect(&roles, sql)
+	err := sqlx.Select(&roles, sql)
 	if err != nil {
-		utils.Sugar.Errorf("查询出错，%v", err)
+		zaplog.Sugar.Errorf("查询出错，%v", err)
 	}
 	return
 }
@@ -55,11 +56,11 @@ func GetRoleAll() (roles []AdminRoleObject) {
 func GetRoles(offset, limit int64, sortField, sort string) (roles []AdminRoleObject) {
 	field := "*"
 	where := "admin_role_id>0"
-	sql := utils.DbSqlDeleted(field, AdminRoleTable, where, sortField, sort, limit, offset)
+	sql := sqlx.SqlDeleted(field, AdminRoleTable, where, sortField, sort, limit, offset)
 
-	err := utils.DbSelect(&roles, sql)
+	err := sqlx.Select(&roles, sql)
 	if err != nil {
-		utils.Sugar.Errorf("查询出错，%v", err)
+		zaplog.Sugar.Errorf("查询出错，%v", err)
 	}
 	return
 }
@@ -70,12 +71,12 @@ func GetRoleCount() int64 {
 	field := "count(1) as total"
 	where := "admin_role_id>0"
 
-	sql := utils.DbSqlDeleted(field, AdminRoleTable, where, "admin_role_id", "ASC", 1, 0)
+	sql := sqlx.SqlDeleted(field, AdminRoleTable, where, "admin_role_id", "ASC", 1, 0)
 
-	err := utils.DbGet(&total, sql)
+	err := sqlx.Get(&total, sql)
 
 	if err != nil {
-		utils.Sugar.Errorf("没有找到，%v", err)
+		zaplog.Sugar.Errorf("没有找到，%v", err)
 	}
 
 	return total
@@ -84,7 +85,7 @@ func GetRoleCount() int64 {
 func InsertAdminRole(role AdminRoleObject) int64 {
 	// role.Roles = ""
 
-	return utils.DbNamedInsert(fmt.Sprintf(`INSERT INTO %s
+	return sqlx.NamedInsert(fmt.Sprintf(`INSERT INTO %s
 		SET admin_role_name=:admin_role_name,
 			admin_role_description=:admin_role_description`, AdminRoleTable), role)
 }

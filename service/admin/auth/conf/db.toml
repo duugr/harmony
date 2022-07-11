@@ -1,0 +1,8 @@
+driver = "mysql"
+dsn = "go:L8n5DuL8n5Du@tcp(192.168.1.10:5306)/harmony?charset=utf8mb4&parseTime=True&loc=Local"
+read_timeout = 3000                                                                             # millisecond
+write_timeout = 5000                                                                            # millisecond
+max_open = 128
+max_idle = 16
+max_life = 300
+debug_sql = false

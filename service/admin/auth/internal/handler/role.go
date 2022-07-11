@@ -5,11 +5,12 @@ import (
 
 	"github.com/duugr/harmony/service/admin/auth/internal/entity"
 	"github.com/duugr/harmony/service/admin/auth/internal/logic"
-	"github.com/duugr/harmony/service/utils"
+	"github.com/duugr/harmony/service/pkg/work"
+	"github.com/duugr/harmony/service/pkg/zaplog"
 )
 
 func AdminRoleList(w http.ResponseWriter, r *http.Request) {
-	working := utils.WorkNew(w, r)
+	working := work.WorkNew(w, r)
 	defer working.WriteJson()
 	if working.CheckAuth() {
 		return
@@ -18,7 +19,7 @@ func AdminRoleList(w http.ResponseWriter, r *http.Request) {
 	var page logic.Page
 	err := working.GetJson(&page)
 	if err != nil {
-		utils.Sugar.Error(err)
+		zaplog.Sugar.Error(err)
 		working.SetMessage("传入参数错误")
 		return
 	}
@@ -26,7 +27,7 @@ func AdminRoleList(w http.ResponseWriter, r *http.Request) {
 	err, data := logic.AdminRoleList(page)
 
 	if err != nil {
-		utils.Sugar.Error(err)
+		zaplog.Sugar.Error(err)
 		working.SetMessage(err.Error())
 		return
 	}
@@ -35,7 +36,7 @@ func AdminRoleList(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminRoleCreate(w http.ResponseWriter, r *http.Request) {
-	working := utils.WorkNew(w, r)
+	working := work.WorkNew(w, r)
 	defer working.WriteJson()
 	if working.CheckAuth() {
 		return
@@ -44,7 +45,7 @@ func AdminRoleCreate(w http.ResponseWriter, r *http.Request) {
 	var user entity.AdminRoleObject
 	err := working.GetJson(&user)
 	if err != nil {
-		utils.Sugar.Error(err)
+		zaplog.Sugar.Error(err)
 		working.SetMessage("传入参数错误")
 		return
 	}
@@ -52,14 +53,14 @@ func AdminRoleCreate(w http.ResponseWriter, r *http.Request) {
 	err = logic.AdminRoleCreate(user)
 
 	if err != nil {
-		utils.Sugar.Error(err)
+		zaplog.Sugar.Error(err)
 		working.SetMessage(err.Error())
 		return
 	}
 }
 
 func AdminRoleRuleList(w http.ResponseWriter, r *http.Request) {
-	working := utils.WorkNew(w, r)
+	working := work.WorkNew(w, r)
 	defer working.WriteJson()
 	if working.CheckAuth() {
 		return
@@ -74,7 +75,7 @@ func AdminRoleRuleList(w http.ResponseWriter, r *http.Request) {
 	err, data := logic.AdminRoleRuleList(roleId)
 
 	if err != nil {
-		utils.Sugar.Error(err)
+		zaplog.Sugar.Error(err)
 		working.SetMessage(err.Error())
 		return
 	}
@@ -83,7 +84,7 @@ func AdminRoleRuleList(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminRoleAll(w http.ResponseWriter, r *http.Request) {
-	working := utils.WorkNew(w, r)
+	working := work.WorkNew(w, r)
 	defer working.WriteJson()
 	if working.CheckAuth() {
 		return
@@ -92,7 +93,7 @@ func AdminRoleAll(w http.ResponseWriter, r *http.Request) {
 	err, data := logic.AdminRoleAll()
 
 	if err != nil {
-		utils.Sugar.Error(err)
+		zaplog.Sugar.Error(err)
 		working.SetMessage(err.Error())
 		return
 	}
@@ -101,7 +102,7 @@ func AdminRoleAll(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminRoleSaveRule(w http.ResponseWriter, r *http.Request) {
-	working := utils.WorkNew(w, r)
+	working := work.WorkNew(w, r)
 	defer working.WriteJson()
 	if working.CheckAuth() {
 		return
@@ -110,7 +111,7 @@ func AdminRoleSaveRule(w http.ResponseWriter, r *http.Request) {
 	var roleRule entity.AdminRoleRuleObject
 	err := working.GetJson(&roleRule)
 	if err != nil {
-		utils.Sugar.Error(err)
+		zaplog.Sugar.Error(err)
 		working.SetMessage("传入参数错误")
 		return
 	}
@@ -118,7 +119,7 @@ func AdminRoleSaveRule(w http.ResponseWriter, r *http.Request) {
 	err = logic.AdminRoleSaveRule(roleRule)
 
 	if err != nil {
-		utils.Sugar.Error(err)
+		zaplog.Sugar.Error(err)
 		working.SetMessage(err.Error())
 		return
 	}

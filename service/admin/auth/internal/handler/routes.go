@@ -3,14 +3,16 @@ package handler
 import (
 	"net/http"
 
+	"github.com/duugr/harmony/service/core/middlewares"
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
 )
 
 func Init() http.Handler {
 	router := mux.NewRouter()
+
 	// 中间插件
-	// router.Use(middlewares.LogMiddleware)
+	router.Use(middlewares.LogMiddleware)
 	// 后端API
 	authRest := router.PathPrefix("/admin").Subrouter()
 

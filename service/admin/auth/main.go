@@ -1,34 +1,33 @@
 package main
 
 import (
-	"log"
 	"net/http"
-	"os"
 	"time"
 
-	"github.com/joho/godotenv"
-
 	"github.com/duugr/harmony/service/admin/auth/internal/handler"
-	"github.com/duugr/harmony/service/utils"
+	"github.com/duugr/harmony/service/core/config"
+	"github.com/duugr/harmony/service/pkg/sqlx"
+	"github.com/duugr/harmony/service/pkg/zaplog"
 )
 
-func init() {
-
-	if err := godotenv.Load(); err != nil {
-		log.Fatalln(err)
-	}
-
-}
-
 func main() {
-	defer func() {
-		utils.DbClose()
-	}()
-	utils.LogInit()
-	utils.DbInit()
+	// defer func() {
+	// 	utils.DbClose()
+	// }()
+
+	config.Init()
+	// log.Println(config.Configure.Db.AllSettings())
+	// log.Println(config.Configure.Log.AllSettings())
+	// log.Println(config.Configure.App.AllSettings())
+
+	zaplog.InitLogger()
+	sqlx.Init()
+
+	// utils.LogInit()
+	// utils.DbInit()
 
 	// 服务器
-	listenAddr := os.Getenv("LISTEN_ADDR")
+	listenAddr := config.Configure.App.GetString("app.server")
 	//err = http.ListenAndServe(listenAddr, header)
 	server := &http.Server{
 		Addr:         listenAddr,
@@ -40,6 +39,6 @@ func main() {
 	err := server.ListenAndServe()
 
 	if err != nil {
-		log.Fatalln(err)
+		zaplog.Sugar.Fatal(err)
 	}
 }

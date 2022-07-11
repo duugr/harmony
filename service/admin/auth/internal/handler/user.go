@@ -5,11 +5,12 @@ import (
 
 	"github.com/duugr/harmony/service/admin/auth/internal/entity"
 	"github.com/duugr/harmony/service/admin/auth/internal/logic"
-	"github.com/duugr/harmony/service/utils"
+	"github.com/duugr/harmony/service/pkg/work"
+	"github.com/duugr/harmony/service/pkg/zaplog"
 )
 
 func AdminUserList(w http.ResponseWriter, r *http.Request) {
-	working := utils.WorkNew(w, r)
+	working := work.WorkNew(w, r)
 	defer working.WriteJson()
 	if working.CheckAuth() {
 		return
@@ -18,7 +19,7 @@ func AdminUserList(w http.ResponseWriter, r *http.Request) {
 	var page logic.Page
 	err := working.GetJson(&page)
 	if err != nil {
-		utils.Sugar.Error(err)
+		zaplog.Sugar.Error(err)
 		working.SetMessage("传入参数错误")
 		return
 	}
@@ -26,7 +27,7 @@ func AdminUserList(w http.ResponseWriter, r *http.Request) {
 	err, data := logic.AdminUserList(page)
 
 	if err != nil {
-		utils.Sugar.Error(err)
+		zaplog.Sugar.Error(err)
 		working.SetMessage(err.Error())
 		return
 	}
@@ -35,7 +36,7 @@ func AdminUserList(w http.ResponseWriter, r *http.Request) {
 }
 
 func AdminUserCreate(w http.ResponseWriter, r *http.Request) {
-	working := utils.WorkNew(w, r)
+	working := work.WorkNew(w, r)
 	defer working.WriteJson()
 	if working.CheckAuth() {
 		return
@@ -44,7 +45,7 @@ func AdminUserCreate(w http.ResponseWriter, r *http.Request) {
 	var user entity.AdminUserObject
 	err := working.GetJson(&user)
 	if err != nil {
-		utils.Sugar.Error(err)
+		zaplog.Sugar.Error(err)
 		working.SetMessage("传入参数错误")
 		return
 	}
@@ -52,7 +53,7 @@ func AdminUserCreate(w http.ResponseWriter, r *http.Request) {
 	err = logic.AdminUserCreate(user)
 
 	if err != nil {
-		utils.Sugar.Error(err)
+		zaplog.Sugar.Error(err)
 		working.SetMessage(err.Error())
 		return
 	}

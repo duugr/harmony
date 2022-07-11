@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"sync"
 
 	"github.com/spf13/viper"
@@ -10,6 +9,8 @@ import (
 type configure struct {
 	Db  *viper.Viper
 	Log *viper.Viper
+	App *viper.Viper
+	Rsa *viper.Viper
 }
 
 var (
@@ -18,21 +19,24 @@ var (
 	configOnce sync.Once
 )
 
-func (c *configure) Init() {
+func Init() {
 	configOnce.Do(func() {
+		c := &Configure
 		c.Db = c.load("db")
 		c.Log = c.load("log")
+		c.App = c.load("app")
+		c.Rsa = c.load("rsa")
 	})
 }
 
 func (c *configure) load(configureName string) *viper.Viper {
 	conf := viper.New()
-	conf.SetConfigType("yaml")
+	conf.SetConfigType("toml")
 	conf.SetConfigName(configureName)
-	conf.AddConfigPath("/etc/appname/")
+	conf.AddConfigPath("./conf")
 	err := conf.ReadInConfig() // Find and read the config file
 	if err != nil {            // Handle errors reading the config file
-		panic(fmt.Errorf("fatal error config file: %w", err))
+		panic(err)
 	}
 	return conf
 }
