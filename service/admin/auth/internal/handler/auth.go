@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/duugr/harmony/service/admin/auth/internal/logic"
-	"github.com/duugr/harmony/service/pkg/work"
+	"github.com/duugr/harmony/service/core/work"
 	"github.com/duugr/harmony/service/pkg/zaplog"
 )
 

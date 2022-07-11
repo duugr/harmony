@@ -1,13 +1,16 @@
-package utils
+package work
 
 import (
 	"encoding/json"
 	"encoding/xml"
 	"net"
 	"net/http"
-	"os"
 	"strings"
 
+	"github.com/duugr/harmony/service/core/config"
+	"github.com/duugr/harmony/service/pkg/jwt"
+	"github.com/duugr/harmony/service/pkg/utils"
+	"github.com/duugr/harmony/service/pkg/zaplog"
 	"github.com/gorilla/mux"
 )
 
@@ -27,7 +30,7 @@ func WorkNew(w http.ResponseWriter, r *http.Request) *working {
 	var err error
 	defer func() {
 		if err != nil {
-			Sugar.Error(err)
+			zaplog.Sugar.Error(err)
 		}
 	}()
 
@@ -42,14 +45,14 @@ func WorkNew(w http.ResponseWriter, r *http.Request) *working {
 }
 
 func (c *working) CheckAuth() bool {
-	token := c.Request.Header.Get(os.Getenv("APP_TOKEN_AUTH"))
+	token := c.Request.Header.Get(config.Configure.App.GetString("token.name"))
 
 	if token == "" {
 		c.SetMessage("token empty")
-		return false
+		return true
 	}
 
-	err := ValidateToken(token)
+	err := jwt.ValidateToken(token)
 	if err != nil {
 		c.SetMessage("auth error")
 	}
@@ -58,10 +61,10 @@ func (c *working) CheckAuth() bool {
 }
 
 func (c *working) GetUserId() interface{} {
-	token := c.Request.Header.Get(os.Getenv("APP_TOKEN_AUTH"))
+	token := c.Request.Header.Get(config.Configure.App.GetString("token.name"))
 
-	var data Algorithm
-	err := DecodeToken(token, &data)
+	var data jwt.Algorithm
+	err := jwt.DecodeToken(token, &data)
 	if err != nil {
 		c.SetMessage("auth error")
 		return 0
@@ -74,14 +77,13 @@ func (c *working) Get(key string) string {
 	return strings.TrimSpace(c.Request.FormValue(key))
 }
 func (c *working) GetInt64(key string) int64 {
-	return StrToInt64(c.Get(key))
+	return utils.StrToInt64(c.Get(key))
 }
 func (c *working) GetInt(key string) int {
-	return StrToInt(c.Get(key))
+	return utils.StrToInt(c.Get(key))
 }
 func (c *working) GetJson(data interface{}) error {
 	err := json.NewDecoder(c.Request.Body).Decode(&data)
-	Sugar.Infof("Request data : %+v", data)
 	return err
 }
 
@@ -124,7 +126,7 @@ func (c *working) GetToken() string {
 }
 
 func (c *working) SetCode(code int) {
-	Sugar.Error(code)
+	zaplog.Sugar.Error(code)
 	//c.Result.Message = setting.LangCode(code)
 }
 func (c *working) SetMessage(msg string) {
@@ -138,7 +140,7 @@ func (c *working) WriteJson() {
 	var err error
 	defer func() {
 		if err != nil {
-			Sugar.Error(err)
+			zaplog.Sugar.Error(err)
 		}
 	}()
 	c.Response.Header().Set("content-type", "text/json")
@@ -150,7 +152,7 @@ func (c *working) Write(out interface{}) {
 	var err error
 	defer func() {
 		if err != nil {
-			Sugar.Error(err)
+			zaplog.Sugar.Error(err)
 		}
 	}()
 
@@ -162,7 +164,7 @@ func (c *working) WriteXml() {
 	var err error
 	defer func() {
 		if err != nil {
-			Sugar.Error(err)
+			zaplog.Sugar.Error(err)
 		}
 	}()
 	c.Response.WriteHeader(http.StatusOK)

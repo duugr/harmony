@@ -17,7 +17,7 @@ export function RoleRuleList() {
 		 如果有值则当里面的值变化时会再执行callback，相当于update生命周期
 	*/
 	useLayoutEffect(() => {
-		Rest.get(UrlService.role.rules)
+		Rest.get(UrlService.role.rules+"?roleId="+roleId)
 			.then(result => {
 				console.log(result)
 				if (result.message) {
