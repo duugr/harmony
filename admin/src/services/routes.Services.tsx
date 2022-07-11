@@ -66,7 +66,7 @@ export default function Router() {
 						{ path: "rule/create", element: <RuleCreate /> },
 						{ path: "admin/:uuid", element: <AdminDetail /> },
 						{ path: "role/:uuid", element: <RoleDetail /> },
-						{ path: "role/rule/:uuid", element: <RoleRuleList /> },
+						{ path: "role/rule/:roleId", element: <RoleRuleList /> },
 						{ path: "rule/:uuid", element: <RuleDetail /> },
 					]
 				},

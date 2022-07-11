@@ -9,6 +9,9 @@ export const Rest = {
 
 		return fetch(url, requestOptions)
 			.then(handleResponse)
+			.catch(error => {
+				console.error(error)
+			})
 	},
 	put: (url: string) => {
 		const requestOptions = {
@@ -17,6 +20,9 @@ export const Rest = {
 		}
 		return fetch(url, requestOptions)
 			.then(handleResponse)
+			.catch(error => {
+				console.error(error)
+			})
 	},
 	delete: (url: string) => {
 		const requestOptions = {
@@ -25,6 +31,9 @@ export const Rest = {
 		}
 		return fetch(url, requestOptions)
 			.then(handleResponse)
+			.catch(error => {
+				console.error(error)
+			})
 	},
 	post: (url: string, body: {}) => {
 		console.log(body, 'Rest.Post')
@@ -35,6 +44,9 @@ export const Rest = {
 		}
 		return fetch(url, requestOptions)
 			.then(handleResponse)
+			.catch(error => {
+				console.error(error)
+			})
 	}
 }
 

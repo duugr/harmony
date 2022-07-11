@@ -29,10 +29,12 @@ export const UrlService = {
 		delete: `/admin/user/delete/`,
 	},
 	role: {
+		rules: `/admin/role/rules`,
 		list: `/admin/role/list`,
 		detail: `/admin/role/detail/`,
 		create: `/admin/role/create`,
 		delete: `/admin/role/delete/`,
+		saveRule: `/admin/role/saveRule/`,
 	},
 	rule: {
 		all: `/admin/rule/all`,

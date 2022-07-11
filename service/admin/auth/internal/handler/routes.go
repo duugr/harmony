@@ -23,6 +23,7 @@ func Init() http.Handler {
 	authRest.HandleFunc("/role/create", AdminRoleCreate).Methods("POST")
 	authRest.HandleFunc("/role/rules", AdminRoleRuleList).Methods("GET")
 	authRest.HandleFunc("/role/all", AdminRoleAll).Methods("GET")
+	authRest.HandleFunc("/role/saveRule", AdminRoleSaveRule).Methods("POST")
 
 	authRest.HandleFunc("/rule/all", AdminRuleAll).Methods("GET")
 	authRest.HandleFunc("/rule/list", AdminRuleList).Methods("POST")

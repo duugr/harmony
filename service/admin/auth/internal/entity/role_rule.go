@@ -41,7 +41,6 @@ func GetRoleAllByRuleId(ruleId int64) (roleRules []AdminRoleRuleObject) {
 
 func InsertAdminRoleRule(roleRules AdminRoleRuleObject) int64 {
 	// role.Roles = ""
-
 	return utils.DbNamedInsert(fmt.Sprintf(`INSERT INTO %s
 		SET role_id=:role_id,
 			rule_id=:rule_id`, AdminRoleRuleTable), roleRules)

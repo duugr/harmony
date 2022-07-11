@@ -1,11 +1,12 @@
 import Notiflix from "notiflix";
 import { useLayoutEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { Rest } from "../../services/Rest.Services";
-import { adminRoleInterface, adminRuleInterface } from "../../services/types";
+import { OptionInterface } from "../../services/types";
 import { UrlService } from "../../services/Url.Services";
 
 export function RoleRuleList() {
+	const { roleId } = useParams()
 	const [rules, setRules] = useState([])
 	// useLayoutEffect, useEffect(callback,arr);
 	/*
@@ -16,7 +17,7 @@ export function RoleRuleList() {
 		 如果有值则当里面的值变化时会再执行callback，相当于update生命周期
 	*/
 	useLayoutEffect(() => {
-		Rest.get(UrlService.rule.all)
+		Rest.get(UrlService.role.rules)
 			.then(result => {
 				console.log(result)
 				if (result.message) {
@@ -25,62 +26,35 @@ export function RoleRuleList() {
 					setRules(result.data.Data)
 				}
 			})
-			.catch(error => {
-				console.error(error)
-			})
 	}, [])
 
-	const deleteRule = (id: number) => {
-		Notiflix.Notify.failure(id.toString())
+	const postRoleRule = (roleId: any, ruleId: any) => {
+		Rest.post(UrlService.role.saveRule, {
+			roleId: roleId,
+			ruleId: ruleId
+		}).then(result => {
+			Notiflix.Notify.failure(result.message)
+		})
 	}
 
 	let ruleContext
 	if (rules) {
-		ruleContext = rules.map((rule: adminRuleInterface) => (
-			<tr key={rule.adminRuleId} id={rule.adminRuleTitle}>
-				<td>
-					<Link to={'/rule/' + rule.adminRuleId}>
-						<strong>{rule.adminRuleTitle}</strong>
-					</Link>
-				</td>
-				<td>{rule.adminRuleId}</td>
-				<td>{rule.createdAt}</td>
-				<td>{rule.updatedAt.String}</td>
-				<td>{rule.deletedAt.String}</td>
-				<td className="is-right">
-					<button className="button is-small is-danger" onClick={() => deleteRule(rule.adminRuleId)}>删除</button>
-				</td>
-			</tr>
+		ruleContext = rules.map((rule: OptionInterface) => (
+			<div className="column">
+				<label className="checkbox">
+					<input type="checkbox" checked={rule.checked} onChange={() => postRoleRule(roleId, rule.value)}>
+						{rule.name}
+					</input>
+				</label>
+			</div>
 		))
 	}
 
 	return (
 		<div className="content">
-			<table className="table is-fullwidth is-narrow">
-				<thead>
-					<tr>
-						<th><abbr title="Name">用户名称</abbr></th>
-						<th><abbr title="Description">描述</abbr></th>
-						<th><abbr title="CreatedTime">创建</abbr></th>
-						<th><abbr title="UpdatedTime">更新</abbr></th>
-						<th><abbr title="DeletedTime">删除</abbr></th>
-						<th>操作</th>
-					</tr>
-				</thead>
-				<tfoot>
-					<tr>
-						<th><abbr title="Name">用户名称</abbr></th>
-						<th><abbr title="Description">描述</abbr></th>
-						<th><abbr title="CreatedTime">创建</abbr></th>
-						<th><abbr title="UpdatedTime">更新</abbr></th>
-						<th><abbr title="DeletedTime">删除</abbr></th>
-						<th>操作</th>
-					</tr>
-				</tfoot>
-				<tbody>
-					{ruleContext}
-				</tbody>
-			</table>
+			<div className="columns">
+				{ruleContext}
+			</div>
 		</div>
 	);
 }

@@ -99,3 +99,28 @@ func AdminRoleAll(w http.ResponseWriter, r *http.Request) {
 
 	working.SetData(data)
 }
+
+func AdminRoleSaveRule(w http.ResponseWriter, r *http.Request) {
+	working := utils.WorkNew(w, r)
+	defer working.WriteJson()
+	if working.CheckAuth() {
+		return
+	}
+
+	var roleRule entity.AdminRoleRuleObject
+	err := working.GetJson(&roleRule)
+	if err != nil {
+		utils.Sugar.Error(err)
+		working.SetMessage("传入参数错误")
+		return
+	}
+
+	err = logic.AdminRoleSaveRule(roleRule)
+
+	if err != nil {
+		utils.Sugar.Error(err)
+		working.SetMessage(err.Error())
+		return
+	}
+	working.SetMessage("设置成功")
+}

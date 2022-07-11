@@ -73,3 +73,11 @@ func AdminRoleCreate(u entity.AdminRoleObject) error {
 	}
 	return nil
 }
+
+func AdminRoleSaveRule(roleRule entity.AdminRoleRuleObject) error {
+	id := entity.InsertAdminRoleRule(roleRule)
+	if id <= 0 {
+		return errors.New("设置失败")
+	}
+	return nil
+}
