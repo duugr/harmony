@@ -153,25 +153,60 @@ CREATE TABLE `bank_prcptcds` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='银行行号表';
 DROP TABLE IF EXISTS `bank_prcptcds`;
 
-DROP TABLE IF EXISTS `products`;
-CREATE TABLE `products` (
-  `product_id` int NOT NULL AUTO_INCREMENT,
-  `product_name` varchar(255) NOT NULL,
-  `product_code` varchar(255) NOT NULL COMMENT '编号',
+
+DROP TABLE IF EXISTS `stories`;
+CREATE TABLE `stories` (
+  `story_id` int NOT NULL AUTO_INCREMENT,
+  `story_title` varchar(255) NOT NULL,
+  `story_code` varchar(255) NOT NULL COMMENT '编号',
+  `story_content` text NULL COMMENT '内容',
+  `story_state` varchar(255) NOT NULL DEFAULT 'one' COMMENT '状态: 第几集one..., 剧终:end',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`product_id`),
-  KEY `index_code` (`product_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='产品表';
-DROP TABLE IF EXISTS `product_stories`;
-CREATE TABLE `product_stories` (
-  `product_story_id` int NOT NULL AUTO_INCREMENT,
-  `product_story_name` varchar(255) NOT NULL,
-  `product_story_code` varchar(255) NOT NULL COMMENT '编号',
+  PRIMARY KEY (`story_id`),
+  KEY `index_code` (`story_code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='故事表';
+DROP TABLE IF EXISTS `stories`;
+CREATE TABLE `story_progress` (
+  `story_progress_id` int NOT NULL AUTO_INCREMENT,
+  `story_progress_story_id` int NOT NULL,
+  `story_progress_title` varchar(255) NOT NULL,
+  `story_progress_content` text NULL COMMENT '内容',
+  `story_progress_date` datetime NOT NULL COMMENT '发生的时间',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   `deleted_at` datetime DEFAULT NULL,
-  PRIMARY KEY (`product_story_id`),
-  KEY `index_code` (`product_story_code`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='产品故事表';
+  PRIMARY KEY (`story_id`),
+  KEY `index_date` (`story_progress_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='故事进度表';
+
+DROP TABLE IF EXISTS `story_attitudes`;
+CREATE TABLE `story_attitudes` (
+  `story_attitude_id` int NOT NULL AUTO_INCREMENT,
+  `story_attitude_pid` int NOT NULL,
+  `story_attitude_story_id` int NOT NULL,
+  `story_attitude_title` varchar(255) NOT NULL,
+  `story_attitude_state` varchar(255) NOT NULL COMMENT '状态: 允许allow, 禁止deny',
+  `story_attitude_ratio` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '态度比',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`story_attitude_id`),
+  KEY `index_state` (`story_attitude_state`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='故事态度表';
+DROP TABLE IF EXISTS `story_attitudes`;
+
+CREATE TABLE `story_attitudes` (
+  `story_attitude_id` int NOT NULL AUTO_INCREMENT,
+  `story_attitude_pid` int NOT NULL,
+  `story_attitude_story_id` int NOT NULL,
+  `story_attitude_title` varchar(255) NOT NULL,
+  `story_attitude_state` varchar(255) NOT NULL COMMENT '状态: 允许allow, 禁止deny',
+  `story_attitude_ratio` tinyint unsigned NOT NULL DEFAULT '0' COMMENT '态度比',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `deleted_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`story_attitude_id`),
+  KEY `index_state` (`story_attitude_state`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='故事态度表';

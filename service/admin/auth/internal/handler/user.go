@@ -5,16 +5,13 @@ import (
 
 	"github.com/duugr/harmony/service/admin/auth/internal/entity"
 	"github.com/duugr/harmony/service/admin/auth/internal/logic"
-	"github.com/duugr/harmony/service/core/work"
+	"github.com/duugr/harmony/service/pkg/work"
 	"github.com/duugr/harmony/service/pkg/zaplog"
 )
 
 func AdminUserList(w http.ResponseWriter, r *http.Request) {
 	working := work.WorkNew(w, r)
 	defer working.WriteJson()
-	if working.CheckAuth() {
-		return
-	}
 
 	var page logic.Page
 	err := working.GetJson(&page)
@@ -38,9 +35,6 @@ func AdminUserList(w http.ResponseWriter, r *http.Request) {
 func AdminUserCreate(w http.ResponseWriter, r *http.Request) {
 	working := work.WorkNew(w, r)
 	defer working.WriteJson()
-	if working.CheckAuth() {
-		return
-	}
 
 	var user entity.AdminUserObject
 	err := working.GetJson(&user)

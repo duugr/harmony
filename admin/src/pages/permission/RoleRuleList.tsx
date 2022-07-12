@@ -1,6 +1,6 @@
 import Notiflix from "notiflix";
 import { useLayoutEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Rest } from "../../services/Rest.Services";
 import { OptionInterface } from "../../services/types";
 import { UrlService } from "../../services/Url.Services";
@@ -17,43 +17,38 @@ export function RoleRuleList() {
 		 如果有值则当里面的值变化时会再执行callback，相当于update生命周期
 	*/
 	useLayoutEffect(() => {
-		Rest.get(UrlService.role.rules+"?roleId="+roleId)
+		Rest.get(UrlService.role.rules + "?roleId=" + roleId)
 			.then(result => {
 				console.log(result)
 				if (result.message) {
 					Notiflix.Notify.failure(result.message)
 				} else {
-					setRules(result.data.Data)
+					setRules(result.data)
 				}
 			})
 	}, [])
 
-	const postRoleRule = (roleId: any, ruleId: any) => {
+	const postRoleRule = (roleId: any, ruleId: any, checked:boolean) => {
 		Rest.post(UrlService.role.saveRule, {
-			roleId: roleId,
-			ruleId: ruleId
+			roleId: Math.abs(roleId),
+			ruleId: ruleId,
+			checked: checked
 		}).then(result => {
-			Notiflix.Notify.failure(result.message)
+			Notiflix.Notify.success(result.message)
 		})
-	}
-
-	let ruleContext
-	if (rules) {
-		ruleContext = rules.map((rule: OptionInterface) => (
-			<div className="column">
-				<label className="checkbox">
-					<input type="checkbox" checked={rule.checked} onChange={() => postRoleRule(roleId, rule.value)}>
-						{rule.name}
-					</input>
-				</label>
-			</div>
-		))
 	}
 
 	return (
 		<div className="content">
 			<div className="columns">
-				{ruleContext}
+				{rules.map((rule: OptionInterface) => (
+					<div className="column" key={rule.value} id={rule.name}>
+						<label className="checkbox">
+							<input type="checkbox" id="{rule.value}" value={rule.value} checked={rule.checked} onChange={() => postRoleRule(roleId, rule.value, !rule.checked)} />
+							{rule.name}
+						</label>
+					</div>
+				))}
 			</div>
 		</div>
 	);

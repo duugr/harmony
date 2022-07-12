@@ -18,6 +18,12 @@ type (
 		Name    string `json:"name"`
 		Checked bool   `json:"checked"`
 	}
+
+	RoleRuleObject struct {
+		RoleId  int64 `json:"roleId"`
+		RuleId  int64 `json:"ruleId"`
+		Checked bool  `json:"checked"`
+	}
 )
 
 func (p *Page) getOffset() int64 {

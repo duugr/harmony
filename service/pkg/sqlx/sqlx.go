@@ -5,6 +5,7 @@ import (
 
 	"github.com/duugr/harmony/service/core/config"
 	"github.com/duugr/harmony/service/pkg/zaplog"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
 )
 

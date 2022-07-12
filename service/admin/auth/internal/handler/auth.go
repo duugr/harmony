@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/duugr/harmony/service/admin/auth/internal/logic"
-	"github.com/duugr/harmony/service/core/work"
+	"github.com/duugr/harmony/service/pkg/work"
 	"github.com/duugr/harmony/service/pkg/zaplog"
 )
 
@@ -21,11 +21,9 @@ func AuthLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err, data := logic.LoginVerify(userForm)
+	data, err := logic.LoginVerify(userForm)
 
 	if err != nil {
-		zaplog.Sugar.Error(err)
-		zaplog.Sugar.Error(logic.HashPassword(userForm.Password))
 		working.SetMessage(err.Error())
 		return
 	}

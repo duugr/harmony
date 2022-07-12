@@ -5,16 +5,13 @@ import (
 
 	"github.com/duugr/harmony/service/admin/auth/internal/entity"
 	"github.com/duugr/harmony/service/admin/auth/internal/logic"
-	"github.com/duugr/harmony/service/core/work"
+	"github.com/duugr/harmony/service/pkg/work"
 	"github.com/duugr/harmony/service/pkg/zaplog"
 )
 
 func AdminRoleList(w http.ResponseWriter, r *http.Request) {
 	working := work.WorkNew(w, r)
 	defer working.WriteJson()
-	if working.CheckAuth() {
-		return
-	}
 
 	var page logic.Page
 	err := working.GetJson(&page)
@@ -38,9 +35,6 @@ func AdminRoleList(w http.ResponseWriter, r *http.Request) {
 func AdminRoleCreate(w http.ResponseWriter, r *http.Request) {
 	working := work.WorkNew(w, r)
 	defer working.WriteJson()
-	if working.CheckAuth() {
-		return
-	}
 
 	var user entity.AdminRoleObject
 	err := working.GetJson(&user)
@@ -62,9 +56,6 @@ func AdminRoleCreate(w http.ResponseWriter, r *http.Request) {
 func AdminRoleRuleList(w http.ResponseWriter, r *http.Request) {
 	working := work.WorkNew(w, r)
 	defer working.WriteJson()
-	if working.CheckAuth() {
-		return
-	}
 
 	roleId := working.GetInt64("roleId")
 	if roleId <= 0 {
@@ -86,9 +77,6 @@ func AdminRoleRuleList(w http.ResponseWriter, r *http.Request) {
 func AdminRoleAll(w http.ResponseWriter, r *http.Request) {
 	working := work.WorkNew(w, r)
 	defer working.WriteJson()
-	if working.CheckAuth() {
-		return
-	}
 
 	err, data := logic.AdminRoleAll()
 
@@ -104,11 +92,8 @@ func AdminRoleAll(w http.ResponseWriter, r *http.Request) {
 func AdminRoleSaveRule(w http.ResponseWriter, r *http.Request) {
 	working := work.WorkNew(w, r)
 	defer working.WriteJson()
-	if working.CheckAuth() {
-		return
-	}
 
-	var roleRule entity.AdminRoleRuleObject
+	var roleRule logic.RoleRuleObject
 	err := working.GetJson(&roleRule)
 	if err != nil {
 		zaplog.Sugar.Error(err)
