@@ -23,9 +23,6 @@ func main() {
 	zaplog.InitLogger()
 	sqlx.Init()
 
-	// utils.LogInit()
-	// utils.DbInit()
-
 	// 服务器
 	listenAddr := config.Configure.App.GetString("app.server")
 	//err = http.ListenAndServe(listenAddr, header)

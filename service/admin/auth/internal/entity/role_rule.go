@@ -43,7 +43,11 @@ func GetRoleAllByRuleId(ruleId int64) (roleRules []AdminRoleRuleObject) {
 func InsertAdminRoleRule(roleRules AdminRoleRuleObject) int64 {
 	// role.Roles = ""
 
-	return sqlx.NamedInsert(fmt.Sprintf(`INSERT INTO %s
+	return sqlx.NamedUpdate(fmt.Sprintf(`INSERT INTO %s
 		SET role_id=:role_id,
 			rule_id=:rule_id`, AdminRoleRuleTable), roleRules)
+}
+
+func DeleteAdminRoleRule(roleRules AdminRoleRuleObject) int64 {
+	return sqlx.NamedUpdate(fmt.Sprintf(`DELETE FROM %s WHERE role_id=:role_id AND rule_id=:rule_id`, AdminRoleRuleTable), roleRules)
 }

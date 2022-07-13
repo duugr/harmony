@@ -5,10 +5,11 @@ import (
 	"encoding/xml"
 	"net"
 	"net/http"
-	"os"
 	"strings"
 
+	"github.com/duugr/harmony/service/core/config"
 	"github.com/duugr/harmony/service/pkg/jwt"
+	"github.com/duugr/harmony/service/pkg/utils"
 	"github.com/duugr/harmony/service/pkg/zaplog"
 	"github.com/gorilla/mux"
 )
@@ -44,11 +45,11 @@ func WorkNew(w http.ResponseWriter, r *http.Request) *working {
 }
 
 func (c *working) CheckAuth() bool {
-	token := c.Request.Header.Get(os.Getenv("APP_TOKEN_AUTH"))
+	token := c.Request.Header.Get(config.Configure.App.GetString("token.name"))
 
 	if token == "" {
 		c.SetMessage("token empty")
-		return false
+		return true
 	}
 
 	err := jwt.ValidateToken(token)
@@ -60,7 +61,7 @@ func (c *working) CheckAuth() bool {
 }
 
 func (c *working) GetUserId() interface{} {
-	token := c.Request.Header.Get(os.Getenv("APP_TOKEN_AUTH"))
+	token := c.Request.Header.Get(config.Configure.App.GetString("token.name"))
 
 	var data jwt.Algorithm
 	err := jwt.DecodeToken(token, &data)
@@ -76,15 +77,13 @@ func (c *working) Get(key string) string {
 	return strings.TrimSpace(c.Request.FormValue(key))
 }
 func (c *working) GetInt64(key string) int64 {
-
-	return c.GetInt64(key)
+	return utils.StrToInt64(c.Get(key))
 }
 func (c *working) GetInt(key string) int {
-	return c.GetInt(key)
+	return utils.StrToInt(c.Get(key))
 }
 func (c *working) GetJson(data interface{}) error {
 	err := json.NewDecoder(c.Request.Body).Decode(&data)
-	zaplog.Sugar.Infof("Request data : %+v", data)
 	return err
 }
 

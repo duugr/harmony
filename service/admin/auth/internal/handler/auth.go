@@ -21,11 +21,9 @@ func AuthLogin(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err, data := logic.LoginVerify(userForm)
+	data, err := logic.LoginVerify(userForm)
 
 	if err != nil {
-		zaplog.Sugar.Error(err)
-		zaplog.Sugar.Error(logic.HashPassword(userForm.Password))
 		working.SetMessage(err.Error())
 		return
 	}

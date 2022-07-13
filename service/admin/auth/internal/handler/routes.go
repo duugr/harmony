@@ -13,6 +13,7 @@ func Init() http.Handler {
 
 	// 中间插件
 	router.Use(middlewares.LogMiddleware)
+	router.Use(middlewares.AuthMiddleware)
 	// 后端API
 	authRest := router.PathPrefix("/admin").Subrouter()
 

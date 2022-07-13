@@ -19,7 +19,7 @@ type (
 	}
 )
 
-func LoginVerify(data LoginData) (err error, jwtData JwtData) {
+func LoginVerify(data LoginData) (jwtData JwtData, err error) {
 
 	userData := entity.GetAdminName(data.Username)
 	if userData.AdminUserId <= 0 {

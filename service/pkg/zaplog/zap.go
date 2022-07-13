@@ -50,7 +50,7 @@ func InitLogger() {
 	// 开启开发模式，堆栈跟踪
 	caller := zap.AddCaller()
 	// 设置初始化字段,如：添加一个服务器名称
-	filed := zap.Fields(zap.String("serviceName", "serviceName"))
+	filed := zap.Fields(zap.String(config.Configure.App.GetString("app.name"), config.Configure.App.GetString("app.sub.name")))
 	// 构造日志
 	Logger = zap.New(core, caller, option, filed)
 	Sugar = Logger.Sugar()

@@ -34,7 +34,7 @@ export const UrlService = {
 		detail: `/admin/role/detail/`,
 		create: `/admin/role/create`,
 		delete: `/admin/role/delete/`,
-		saveRule: `/admin/role/saveRule/`,
+		saveRule: `/admin/role/saveRule`,
 	},
 	rule: {
 		all: `/admin/rule/all`,
